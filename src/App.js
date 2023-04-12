@@ -6,6 +6,7 @@ import Loading from './Loading';
 import "primereact/resources/themes/lara-light-indigo/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
+import { Button } from 'primereact/button';
 
 function App() {
   const [courses, setCourses] = useState([]);
@@ -28,11 +29,22 @@ function App() {
   }
   useEffect(() => {
     fetchCourses()
-  }, [])
+  }, []);
   return <div className="App">
     {loading ? (
       <Loading />
-    ) : (<Courses courses={courses} removeCourse={deleteCourse} />)}
+    ) : (
+      <>
+        {courses.length === 0 ? (
+          <div className='refleshDiv'>
+            <h2>Kursların Hepsini Sildin!</h2>
+            <Button label="Yenile" severity="success" onClick={() => { fetchCourses() }} />
+          </div>
+        ) : (
+          <Courses courses={courses} removeCourse={deleteCourse} />
+        )}
+      </>
+    )}
   </div>
 }
 
